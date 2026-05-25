@@ -1,0 +1,86 @@
+# ============================================================
+# CREDENCIALES Y SECRETOS — nunca deben subirse a Git
+# CREDENTIALS AND SECRETS — must never be committed to Git
+# ============================================================
+
+# Google OAuth tokens
+google_token.json
+*_token.json
+token.json
+
+# Google Cloud client secrets
+google_client_secret.json
+client_secret*.json
+credentials.json
+
+# Variables de entorno / Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+
+# rclone config (contiene tokens activos / contains active tokens)
+rclone.conf
+
+# Claves privadas / Private keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Configuración SSH / SSH config
+id_rsa
+id_ed25519
+*.pub
+
+# ============================================================
+# DEPENDENCIAS Y BUILDS — no son necesarias en el repo
+# DEPENDENCIES AND BUILDS — not needed in the repo
+# ============================================================
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+env/
+.Python
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ============================================================
+# SISTEMA OPERATIVO / OPERATING SYSTEM
+# ============================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ============================================================
+# LOGS Y TEMPORALES / LOGS AND TEMP FILES
+# ============================================================
+
+*.log
+*.tmp
+*.temp
+.cache/
