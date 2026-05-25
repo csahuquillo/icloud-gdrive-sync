@@ -1,8 +1,8 @@
-# iCloud ↔ Google Drive Sync + Claude Agent Hub
+# iCloud ↔ Google Drive Sync
 
-> **Sincronización bidireccional automática entre iCloud Drive y Google Drive, con integración de servicios Google para Claude AI.**
+> **Sincronización bidireccional automática entre iCloud Drive y Google Drive.**
 >
-> **Automatic bidirectional sync between iCloud Drive and Google Drive, with Google services integration for Claude AI.**
+> **Automatic bidirectional sync between iCloud Drive and Google Drive.**
 
 ---
 
@@ -10,17 +10,13 @@
 
 ### ¿Qué es esto?
 
-Un sistema en dos partes:
-
-1. **Sync automático iCloud ↔ Google Drive** — mantiene tu carpeta `Documents` de iCloud en espejo exacto con Google Drive usando `rclone bisync`. Pensado para trabajar desde Mac con iCloud y desde Windows/Linux con Google Drive, sin perder nada.
-
-2. **Agent Hub para Claude** — un skill de Claude (vía Cowork o Claude Code) que te permite interactuar con Gmail, Google Drive, Google Calendar, YouTube y Search Console usando lenguaje natural.
+Mantiene tu carpeta `Documents` de iCloud en espejo exacto con Google Drive usando `rclone bisync`. Pensado para trabajar desde Mac con iCloud y desde Windows/Linux con Google Drive, sin perder nada.
 
 ### ¿Para quién es útil?
 
-- Usuarios de Mac con iCloud que también necesitan acceder a sus archivos desde Windows (donde iCloud no está disponible o está filtrado)
-- Quienes usan Claude AI y quieren conectarlo a sus servicios Google
-- Cualquiera que quiera un backup automático de iCloud en Google Drive
+- Usuarios de Mac con iCloud que también necesitan acceder a sus archivos desde Windows (donde iCloud no está disponible o está filtrado en el trabajo)
+- Quienes quieran un backup automático de iCloud en Google Drive
+- Cualquiera que trabaje en múltiples sistemas operativos y quiera que sus archivos estén siempre disponibles
 
 ### Arquitectura
 
@@ -28,9 +24,7 @@ Un sistema en dos partes:
 [iCloud Documents] ←──rclone bisync──→ [Google Drive]
          ↑                                    ↑
    LaunchAgent                         gdrive remote
- (cada 5 minutos)                   (OAuth2 configurado)
-         
-[Claude AI] ←── agent-hub/google skill ──→ [Gmail / Drive / Calendar / YouTube]
+ (cada hora, L–V)                   (OAuth2 configurado)
 ```
 
 ---
@@ -39,17 +33,13 @@ Un sistema en dos partes:
 
 ### What is this?
 
-A two-part system:
-
-1. **Automatic iCloud ↔ Google Drive sync** — keeps your iCloud `Documents` folder as an exact mirror of Google Drive using `rclone bisync`. Designed to let you work from Mac via iCloud and from Windows/Linux via Google Drive without losing anything.
-
-2. **Agent Hub for Claude** — a Claude skill (via Cowork or Claude Code) that lets you interact with Gmail, Google Drive, Google Calendar, YouTube, and Search Console using natural language.
+Keeps your iCloud `Documents` folder as an exact mirror of Google Drive using `rclone bisync`. Designed to let you work from Mac via iCloud and from Windows/Linux via Google Drive without losing anything.
 
 ### Who is this for?
 
-- Mac users with iCloud who also need to access files from Windows (where iCloud is unavailable or blocked)
-- People who use Claude AI and want to connect it to their Google services
+- Mac users with iCloud who also need to access files from Windows (where iCloud is unavailable or blocked at work)
 - Anyone who wants an automatic iCloud backup to Google Drive
+- Anyone working across multiple operating systems who wants their files always available
 
 ### Architecture
 
@@ -57,9 +47,7 @@ A two-part system:
 [iCloud Documents] ←──rclone bisync──→ [Google Drive]
          ↑                                    ↑
    LaunchAgent                         gdrive remote
- (every 5 minutes)                  (OAuth2 configured)
-         
-[Claude AI] ←── agent-hub/google skill ──→ [Gmail / Drive / Calendar / YouTube]
+ (hourly, Mon–Fri)                  (OAuth2 configured)
 ```
 
 ---
@@ -80,9 +68,7 @@ A two-part system:
 |---|---|---|
 | macOS | 12+ | iCloud Drive activado / enabled |
 | [rclone](https://rclone.org) | 1.65+ | `brew install rclone` |
-| Python | 3.9+ | Para el agent hub / For agent hub |
 | Google Cloud Project | — | Para OAuth2 / For OAuth2 |
-| Claude (Cowork o API) | — | Para el skill / For the skill |
 
 ---
 
