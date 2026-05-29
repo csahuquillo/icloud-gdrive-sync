@@ -12,6 +12,10 @@
 
 Mantiene tu carpeta `Documents` de iCloud en espejo exacto con Google Drive usando `rclone bisync`. Pensado para trabajar desde Mac con iCloud y desde Windows/Linux con Google Drive, sin perder nada.
 
+El script comprueba antes de arrancar que las APIs de Google son accesibles. Si
+el Mac está sin conexión, en una red cautiva, en un tren o en un avión, registra
+un aviso y no lanza `rclone bisync`, evitando errores críticos por falta de red.
+
 ### ¿Para quién es útil?
 
 - Usuarios de Mac con iCloud que también necesitan acceder a sus archivos desde Windows (donde iCloud no está disponible o está filtrado en el trabajo)
@@ -34,6 +38,11 @@ Mantiene tu carpeta `Documents` de iCloud en espejo exacto con Google Drive usan
 ### What is this?
 
 Keeps your iCloud `Documents` folder as an exact mirror of Google Drive using `rclone bisync`. Designed to let you work from Mac via iCloud and from Windows/Linux via Google Drive without losing anything.
+
+Before starting, the script checks that Google APIs are reachable. If the Mac is
+offline, behind a captive network, on a train, or on a plane, it logs a notice
+and skips `rclone bisync`, avoiding critical sync errors caused by missing
+network connectivity.
 
 ### Who is this for?
 
