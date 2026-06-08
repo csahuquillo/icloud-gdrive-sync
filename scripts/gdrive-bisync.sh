@@ -83,6 +83,7 @@ fi
   --exclude "Projects/**" \
   --exclude "Codex/**" \
   --exclude "Claude/**" \
+  --exclude "CLAUDE/**" \
   --exclude "Alta Cliente/**" \
   --exclude ".venv/**" \
   --exclude "venv/**" \
