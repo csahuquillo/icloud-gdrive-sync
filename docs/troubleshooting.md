@@ -107,7 +107,7 @@ rclone config reconnect gdrive:
 
 O si usas el agent hub de Claude:
 ```bash
-cd ~/Documents/Projects/agent-hub
+cd ~/Documents/5 PROYECTOS/agent-hub
 python3 google_auth.py  # vuelve a autorizar en el navegador
 ```
 
@@ -220,6 +220,6 @@ rclone config reconnect gdrive:
 
 Or if you use the Claude agent hub:
 ```bash
-cd ~/Documents/Projects/agent-hub
+cd ~/Documents/5 PROYECTOS/agent-hub
 python3 google_auth.py  # re-authorize in your browser
 ```

@@ -113,16 +113,16 @@ pip3 install google-auth-oauthlib google-api-python-client
 ### Step 1: Prepare the agent hub directory
 
 ```bash
-mkdir -p ~/Documents/Projects/agent-hub
-cp agent-hub/google_auth.py ~/Documents/Projects/agent-hub/
-cp agent-hub/.env.local.example ~/Documents/Projects/agent-hub/.env.local
+mkdir -p ~/Documents/5 PROYECTOS/agent-hub
+cp agent-hub/google_auth.py ~/Documents/5 PROYECTOS/agent-hub/
+cp agent-hub/.env.local.example ~/Documents/5 PROYECTOS/agent-hub/.env.local
 ```
 
 ### Step 2: Configure credentials
 
 Copy your `client_secret.json` (the same one from earlier) to the directory:
 ```bash
-cp client_secret.json ~/Documents/Projects/agent-hub/google_client_secret.json
+cp client_secret.json ~/Documents/5 PROYECTOS/agent-hub/google_client_secret.json
 ```
 
 > ⚠️ This file must NEVER be committed to Git. It is included in `.gitignore`.
@@ -130,7 +130,7 @@ cp client_secret.json ~/Documents/Projects/agent-hub/google_client_secret.json
 ### Step 3: Authorize the application
 
 ```bash
-cd ~/Documents/Projects/agent-hub
+cd ~/Documents/5 PROYECTOS/agent-hub
 python3 google_auth.py
 ```
 
