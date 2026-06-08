@@ -48,10 +48,31 @@ if ! network_ready; then
 fi
 
 # Ejecuta bisync / Run bisync
+#
+# Política de borrados / Deletion policy:
+#   - Los borrados son AUTORITATIVOS en ambos lados. Si borras un fichero en
+#     iCloud, se borra en Drive en la próxima ejecución (y viceversa). Sin
+#     restauraciones "por seguridad".
+#   - Deletions are AUTHORITATIVE on both sides. If you delete a file in
+#     iCloud, it gets deleted in Drive on the next run (and vice versa).
+#     No "safety" restorations.
+#
+# Salvaguarda anti-desastre / Anti-disaster safeguard:
+#   --check-access busca un fichero canario `RCLONE_TEST` en cada lado. Si
+#   no aparece (señal de que ese lado está vacío por error, no por intención),
+#   bisync ABORTA sin tocar nada. Crear el marker UNA VEZ con:
+#     touch "$ICLOUD/RCLONE_TEST"
+#     rclone touch gdrive:RCLONE_TEST
+#   --check-access looks for a canary file `RCLONE_TEST` on each side. If
+#   missing (signals that side is empty by error, not intent), bisync ABORTS
+#   without touching anything. Create marker ONCE with the commands above.
 "$RCLONE" bisync gdrive: "$ICLOUD" \
   --drive-skip-shortcuts \
   --create-empty-src-dirs \
   --resilient \
+  --check-access \
+  --max-delete 9999 \
+  --conflict-resolve newer \
   --log-file "$LOG" \
   --log-level INFO \
   --exclude "node_modules/**" \
@@ -59,4 +80,14 @@ fi
   --exclude ".DS_Store" \
   --exclude "__pycache__/**" \
   --exclude "*.pyc" \
+  --exclude "Projects/**" \
+  --exclude "Codex/**" \
+  --exclude "Claude/**" \
+  --exclude "Alta Cliente/**" \
+  --exclude ".venv/**" \
+  --exclude "venv/**" \
+  --exclude "*.bak" \
+  --exclude "*.bak.*" \
+  --exclude "*.tmp" \
+  --exclude "*.swp" \
   "$@"
