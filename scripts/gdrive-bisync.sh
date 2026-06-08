@@ -83,6 +83,7 @@ fi
   --exclude "Projects/**" \
   --exclude "Codex/**" \
   --exclude "Claude/**" \
+  --exclude "CLAUDE/**" \
   --exclude "Alta Cliente/**" \
   --exclude ".venv/**" \
   --exclude "venv/**" \
@@ -90,4 +91,26 @@ fi
   --exclude "*.bak.*" \
   --exclude "*.tmp" \
   --exclude "*.swp" \
+  --exclude ".angular/**" \
+  --exclude ".next/**" \
+  --exclude ".nuxt/**" \
+  --exclude ".svelte-kit/**" \
+  --exclude ".cache/**" \
+  --exclude ".parcel-cache/**" \
+  --exclude ".turbo/**" \
+  --exclude "dist/**" \
+  --exclude "build/**" \
+  --exclude "target/**" \
+  --exclude "out/**" \
+  --exclude "coverage/**" \
+  --exclude ".nyc_output/**" \
+  --exclude ".pytest_cache/**" \
+  --exclude ".mypy_cache/**" \
+  --exclude ".ruff_cache/**" \
+  --exclude ".tox/**" \
+  --exclude ".terraform/**" \
+  --exclude "*.log" \
+  --exclude "*.iso" \
+  --exclude "*.qcow2" \
+  --exclude "*.vmdk" \
   "$@"
