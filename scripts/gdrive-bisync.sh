@@ -68,6 +68,7 @@ fi
 #   without touching anything. Create marker ONCE with the commands above.
 "$RCLONE" bisync gdrive: "$ICLOUD" \
   --drive-skip-shortcuts \
+  --drive-skip-gdocs \
   --create-empty-src-dirs \
   --resilient \
   --check-access \
@@ -80,6 +81,9 @@ fi
   --exclude ".DS_Store" \
   --exclude "__pycache__/**" \
   --exclude "*.pyc" \
+  --exclude "*.egg-info/**" \
+  --exclude ".git-codex-archive/**" \
+  --exclude "git-export/**" \
   --exclude "Projects/**" \
   --exclude "Codex/**" \
   --exclude "Claude/**" \
