@@ -133,6 +133,45 @@ fi
 #     EN: recovers from interruptions without demanding a full --resync. With
 #         --max-lock, it breaks the "interrupted run -> must resync -> drift" loop.
 #
+#   AVISO / WARNING sobre resyncs automaticos
+#     ES: --resilient y --recover pueden hacer que rclone dispare un resync POR SU
+#         CUENTA para reconstruir un baseline perdido, y el modo por defecto de
+#         rclone en ese caso es `path1`: en un fichero que difiera en ambos lados
+#         gana Path1 a ciegas. Es la REGLA DE ORO de arriba, ocurriendo sola.
+#         Y hay un segundo efecto menos obvio: un resync es una UNION, no borra.
+#         Eso significa que RESUCITA lo que el otro lado habia borrado a proposito.
+#         Si una carpeta la gestiona un tercero con politica de retencion (backups
+#         rotados, por ejemplo), cada resync le devuelve los ficheros viejos que
+#         ese tercero ya habia purgado, y ahi se quedan para siempre porque ya
+#         nadie los gestiona. Sintoma: una carpeta de backups que acumula mucho
+#         mas de lo que su retencion permite, en tandas que coinciden con las
+#         fechas en que el sync se rompio.
+#         OJO: NO se arregla poniendo `--resync-mode newer` de forma permanente.
+#         Ese flag IMPLICA resync: con el puesto, cada pasada se convierte en un
+#         resync completo (comprobado: "Copying Path2 files to Path1" en vez de
+#         "Building Path1 and Path2 listings"), que tarda muchisimo mas y deja de
+#         propagar borrados. Lo que protege de verdad aqui es --backup-dir2, que
+#         guarda copia local de todo lo sobrescrito, y que un resync es una UNION
+#         y nunca borra.
+#     EN: --resilient and --recover can make rclone fire a resync ON ITS OWN to
+#         rebuild a lost baseline, and rclone's default mode there is `path1`: for
+#         a file differing on both sides, Path1 wins blindly. That is the GOLDEN
+#         RULE above, happening by itself.
+#         There is a second, less obvious effect: a resync is a UNION, it never
+#         deletes. So it RESURRECTS whatever the other side had deleted on
+#         purpose. If a folder is managed by a third party with a retention
+#         policy (rotated backups, say), every resync hands back the old files
+#         that party had already pruned, and they stay forever because nothing
+#         manages them any more. Symptom: a backup folder holding far more than
+#         its retention allows, in batches matching the dates the sync broke.
+#         BEWARE: this is NOT fixed by setting `--resync-mode newer` permanently.
+#         That flag IMPLIES resync: with it set, every run becomes a full resync
+#         (verified: "Copying Path2 files to Path1" instead of "Building Path1 and
+#         Path2 listings"), which is far slower and stops propagating deletions.
+#         What actually protects here is --backup-dir2, which keeps a local copy of
+#         anything overwritten, plus the fact that a resync is a UNION, never a
+#         delete.
+#
 #   --conflict-resolve newer + --conflict-loser num
 #     ES: en un conflicto gana el más nuevo, y el perdedor se CONSERVA renombrado
 #         (sufijo `conflict`). Nunca se pierde una versión en silencio.
@@ -146,7 +185,17 @@ fi
 #     EN: essential. Native Google documents (Docs/Sheets/Slides) cannot be
 #         downloaded as-is and will abort the run with
 #         "can't update google document type".
-"$RCLONE" bisync gdrive: "$ICLOUD" \
+# `caffeinate -i` mantiene el Mac despierto SOLO mientras dura esta pasada (se
+# libera al terminar el proceso). Sin esto, en un portatil que entra en idle
+# sleep cada pocos minutos la pasada se corta a mitad; si el corte pilla a
+# rclone reescribiendo los listados, el baseline queda inservible y el sync
+# queda muerto con "cannot find prior listings" hasta un --resync manual.
+# `caffeinate -i` keeps the Mac awake ONLY while this run lasts (released when
+# the process ends). Without it, on a laptop that idle-sleeps every few minutes
+# the run gets cut in half; if the cut catches rclone rewriting its listings the
+# baseline is left unusable and the sync stays dead with "cannot find prior
+# listings" until a manual --resync.
+/usr/bin/caffeinate -i "$RCLONE" bisync gdrive: "$ICLOUD" \
   --drive-skip-shortcuts \
   --drive-skip-gdocs \
   --create-empty-src-dirs \
